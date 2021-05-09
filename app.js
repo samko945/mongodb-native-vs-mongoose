@@ -26,7 +26,7 @@ async function insertData() {
 		await client.close();
 	}
 }
-// insertData().catch(console.dir);
+insertData().catch(console.dir);
 
 async function readData() {
 	try {
