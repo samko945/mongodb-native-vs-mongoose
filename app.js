@@ -1,44 +1,60 @@
-const assert = require("assert");
-const MongoClient = require("mongodb").MongoClient;
+const mongoose = require("mongoose");
 
-// Replace the uri string with your MongoDB deployment's connection string.
-const uri = "mongodb://127.0.0.1:27017";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost:27017/fruitsDB", {useNewUrlParser: true, useUnifiedTopology: true});
 
-async function insertData() {
-	try {
-		await client.connect();
-		console.log("Connected successfully to database server.");
-		const database = client.db("fruitsDB");
-		const fruitsCollection = database.collection("fruits");
+const fruitSchema = new mongoose.Schema ({
+    name: String,
+    rating: Number,
+    review: String
+});
 
-		const newData = [
-			{ name: "Apple", score: 8, review: "Great fruit" },
-			{ name: "Orange", score: 6, review: "Kinda sour" },
-			{ name: "Banana", score: 9, review: "Great stuff!" },
-		];
-		const result = await fruitsCollection.insertMany(newData);
-		assert(3 === result.result.n);
-		assert(3 === result.ops.length);
-		console.log("Inserted 3 items into the collection");
-	} finally {
-		// Ensures that the client will close when you finish/error
-		await client.close();
-	}
-}
-insertData().catch(console.dir);
+const Fruit = mongoose.model("Fruit", fruitSchema);
 
-async function readData() {
-	try {
-		client.connect();
-		console.log("Connected successfully to database server.");
-		const database = client.db("fruitsDB");
-		const fruitsCollection = database.collection("fruits");
+const fruit = new Fruit ({
+    name: "Apple",
+    rating: 7,
+    review: "Pretty solid as a fruit."
+});
 
-        const fruits = await fruitsCollection.find({}).toArray();
-        console.log(fruits)
-	} finally {
-        await client.close();
-	}
-}
-readData().catch(console.dir)
+// fruit.save();
+
+const personSchema = new mongoose.Schema ({
+    name: String,
+    age: Number
+});
+
+const Person = mongoose.model("Person", personSchema);
+
+const person = new Person ({
+    name: "John",
+    age: 37
+});
+
+// person.save();
+
+
+const kiwi = new Fruit ({
+    name: "Kiwi",
+    rating: 10,
+    review: "The best fruit!"
+})
+
+const banana = new Fruit ({
+    name: "Banana",
+    rating: 3,
+    review: "Weird texture"
+})
+
+const orange = new Fruit ({
+    name: "orange",
+    rating: 4,
+    review: "Too sour for me"
+})
+
+Fruit.insertMany([kiwi, orange, banana], function(err) {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log("Successfully saved all the fruits to fruitsDB.")
+    }
+})
