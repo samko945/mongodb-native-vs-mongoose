@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/fruitsDB", {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect("mongodb://localhost:27017/fruitsDB", { useNewUrlParser: true, useUnifiedTopology: true });
 
 const fruitSchema = new mongoose.Schema({
 	name: {
@@ -18,46 +18,45 @@ const fruitSchema = new mongoose.Schema({
 
 const Fruit = mongoose.model("Fruit", fruitSchema);
 
-const fruit = new Fruit ({
-    name: "Apple",
-    rating: 11,
-    review: "Pretty solid as a fruit."
+const fruit = new Fruit({
+	name: "Apple",
+	rating: 11,
+	review: "Pretty solid as a fruit.",
 });
 
-fruit.save();
+// fruit.save();
 
-const personSchema = new mongoose.Schema ({
-    name: String,
-    age: Number
+const personSchema = new mongoose.Schema({
+	name: String,
+	age: Number,
 });
 
 const Person = mongoose.model("Person", personSchema);
 
-const person = new Person ({
-    name: "John",
-    age: 37
+const person = new Person({
+	name: "John",
+	age: 37,
 });
 
-// person.save();
+person.save();
 
+const kiwi = new Fruit({
+	name: "Kiwi",
+	rating: 10,
+	review: "The best fruit!",
+});
 
-const kiwi = new Fruit ({
-    name: "Kiwi",
-    rating: 10,
-    review: "The best fruit!"
-})
+const banana = new Fruit({
+	name: "Banana",
+	rating: 3,
+	review: "Weird texture",
+});
 
-const banana = new Fruit ({
-    name: "Banana",
-    rating: 3,
-    review: "Weird texture"
-})
-
-const orange = new Fruit ({
-    name: "Orange",
-    rating: 4,
-    review: "Too sour for me"
-})
+const orange = new Fruit({
+	name: "Orange",
+	rating: 4,
+	review: "Too sour for me",
+});
 
 // Fruit.insertMany([kiwi, orange, banana], function(err) {
 //     if (err) {
@@ -67,11 +66,11 @@ const orange = new Fruit ({
 //     }
 // })
 
-Fruit.find(function(err, fruits) {
-    if (err) {
-        console.error(err);
-    } else {
-        mongoose.connection.close();
-        fruits.forEach(fruit => console.log(fruit.name));
-    }
-})
+Fruit.find(function (err, fruits) {
+	if (err) {
+		console.error(err);
+	} else {
+		mongoose.connection.close();
+		fruits.forEach((fruit) => console.log(fruit.name));
+	}
+});
