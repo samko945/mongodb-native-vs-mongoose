@@ -74,3 +74,27 @@ Fruit.find(function (err, fruits) {
 		fruits.forEach((fruit) => console.log(fruit.name));
 	}
 });
+
+Fruit.updateOne({ _id: "6097d104cb5fee374fcc8da6" }, { name: "Avocado" }, function (err) {
+	if (err) {
+		console.error(err);
+	} else {
+		console.log("Succesfully updated the document.");
+	}
+});
+
+Fruit.deleteOne({ _id: "6097d104cb5fee374fcc8da8" }, function (err) {
+	if (err) {
+		console.error(err);
+	} else {
+		console.log("Successfully deleted docuemnt.");
+	}
+});
+
+Person.deleteMany({ name: "John", age: { $gte: 40 } }, function (err) {
+	if (err) {
+		console.error(err);
+	} else {
+		console.log("Successfully deleted the documents.");
+	}
+});
