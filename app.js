@@ -18,17 +18,18 @@ const fruitSchema = new mongoose.Schema({
 
 const Fruit = mongoose.model("Fruit", fruitSchema);
 
-const fruit = new Fruit({
+const apple = new Fruit({
 	name: "Apple",
-	rating: 11,
+	rating: 7,
 	review: "Pretty solid as a fruit.",
 });
 
-// fruit.save();
+apple.save();
 
 const personSchema = new mongoose.Schema({
 	name: String,
 	age: Number,
+	favouriteFruit: fruitSchema,
 });
 
 const Person = mongoose.model("Person", personSchema);
@@ -36,9 +37,17 @@ const Person = mongoose.model("Person", personSchema);
 const person = new Person({
 	name: "John",
 	age: 37,
+	favouriteFruit: apple,
 });
 
-person.save();
+Person.updateOne({ name: "John" }, { favouriteFruit: apple }, function (err) {
+	if (err) {
+		console.log(err);
+	} else {
+		console.log("Successfully updated document.");
+	}
+});
+// person.save();
 
 const kiwi = new Fruit({
 	name: "Kiwi",
@@ -66,35 +75,35 @@ const orange = new Fruit({
 //     }
 // })
 
-Fruit.find(function (err, fruits) {
-	if (err) {
-		console.error(err);
-	} else {
-		mongoose.connection.close();
-		fruits.forEach((fruit) => console.log(fruit.name));
-	}
-});
+// Fruit.find(function (err, fruits) {
+// 	if (err) {
+// 		console.error(err);
+// 	} else {
+// 		mongoose.connection.close();
+// 		fruits.forEach((fruit) => console.log(fruit.name));
+// 	}
+// });
 
-Fruit.updateOne({ _id: "6097d104cb5fee374fcc8da6" }, { name: "Avocado" }, function (err) {
-	if (err) {
-		console.error(err);
-	} else {
-		console.log("Succesfully updated the document.");
-	}
-});
+// Fruit.updateOne({ _id: "6097d104cb5fee374fcc8da6" }, { name: "Avocado" }, function (err) {
+// 	if (err) {
+// 		console.error(err);
+// 	} else {
+// 		console.log("Succesfully updated the document.");
+// 	}
+// });
 
-Fruit.deleteOne({ _id: "6097d104cb5fee374fcc8da8" }, function (err) {
-	if (err) {
-		console.error(err);
-	} else {
-		console.log("Successfully deleted docuemnt.");
-	}
-});
+// Fruit.deleteOne({ _id: "6097d104cb5fee374fcc8da8" }, function (err) {
+// 	if (err) {
+// 		console.error(err);
+// 	} else {
+// 		console.log("Successfully deleted docuemnt.");
+// 	}
+// });
 
-Person.deleteMany({ name: "John", age: { $gte: 40 } }, function (err) {
-	if (err) {
-		console.error(err);
-	} else {
-		console.log("Successfully deleted the documents.");
-	}
-});
+// Person.deleteMany({ name: "John", age: { $gte: 40 } }, function (err) {
+// 	if (err) {
+// 		console.error(err);
+// 	} else {
+// 		console.log("Successfully deleted the documents.");
+// 	}
+// });
